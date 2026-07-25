@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proyectando…</title>
+<meta name="theme-color" content="#000000">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400..600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/proyector.css">
+</head>
+<body>
+
+<div class="escenario" id="escenario">
+
+  <div class="capa" id="fondo-a"></div>
+  <div class="capa" id="fondo-b"></div>
+  <div class="velo"></div>
+
+  <div class="rotulo">
+    <span id="rotulo-titulo"></span>
+    <span id="rotulo-contador"></span>
+  </div>
+
+  <div class="marco">
+    <p class="letra" id="letra"></p>
+  </div>
+
+  <button class="flecha flecha--anterior" id="anterior" type="button" aria-label="Diapositiva anterior">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M15 5 8 12l7 7"/>
+    </svg>
+  </button>
+
+  <button class="flecha flecha--siguiente" id="siguiente" type="button" aria-label="Diapositiva siguiente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 5l7 7-7 7"/>
+    </svg>
+  </button>
+
+  <a class="volver" href="index.html">Volver al índice</a>
+
+  <div class="progreso-pista"><div class="progreso" id="progreso"></div></div>
+
+  <div class="aviso" id="aviso" hidden>
+    <p></p>
+    <a href="index.html">Volver al índice</a>
+  </div>
+
+</div>
+
+<script type="module">
+  import { CONFIG } from './js/config.js';
+  document.documentElement.style.setProperty('--velo', CONFIG.VELO);
+  import('./js/proyector.js').then(m => m.iniciar());
+</script>
+</body>
+</html>
