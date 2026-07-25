@@ -1,0 +1,186 @@
+/* =====================================================================
+   proyector.css — Pantalla completa horizontal
+   ===================================================================== */
+
+html, body { height: 100%; overflow: hidden; background: #000; }
+body.quieto { cursor: none; }
+
+.escenario {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* --- Capas de fondo (dos, para el cruce suave) ------------------------- */
+
+.capa {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+.capa.visible { opacity: 1; }
+
+.capa img, .capa video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Velo: garantiza contraste sea cual sea la foto que toque al azar */
+.velo {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / .55) 0%, rgb(0 0 0 / .25) 40%, rgb(0 0 0 / .65) 100%),
+    rgb(0 0 0 / var(--velo, .5));
+  pointer-events: none;
+}
+
+/* --- Letra -------------------------------------------------------------- */
+
+.marco {
+  position: relative;
+  width: 88vw;
+  height: 74vh;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.letra {
+  margin: 0;
+  text-align: center;
+  font-family: var(--texto);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.005em;
+  color: #fff;
+  text-shadow: 0 2px 24px rgb(0 0 0 / .55), 0 1px 2px rgb(0 0 0 / .7);
+  text-wrap: balance;
+  max-width: 100%;
+}
+
+.letra .verso { display: block; }
+
+.letra.entra { animation: entra .38s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes entra {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Rótulos ------------------------------------------------------------ */
+
+.rotulo {
+  position: absolute;
+  top: calc(var(--u) * 3);
+  left: calc(var(--u) * 4);
+  right: calc(var(--u) * 4);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--u);
+  font-size: 13px;
+  color: rgb(255 255 255 / .55);
+  opacity: 0;
+  transition: opacity .25s;
+  pointer-events: none;
+}
+.escenario:hover .rotulo, body:not(.quieto) .rotulo { opacity: 1; }
+
+#rotulo-titulo {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 15px;
+}
+#rotulo-contador { font-variant-numeric: tabular-nums; letter-spacing: .1em; }
+
+.progreso-pista {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: rgb(255 255 255 / .12);
+}
+.progreso {
+  height: 100%;
+  width: 0;
+  background: rgb(255 255 255 / .7);
+  transition: width .35s ease;
+}
+
+/* --- Flechas: blanco semitransparente, esquinas inferiores ------------- */
+
+.flecha {
+  position: absolute;
+  bottom: clamp(16px, 4vh, 40px);
+  width: clamp(56px, 7vw, 84px);
+  height: clamp(56px, 7vw, 84px);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / .28);
+  border-radius: 50%;
+  background: rgb(255 255 255 / .12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgb(255 255 255 / .85);
+  cursor: pointer;
+  opacity: .55;
+  transition: opacity .2s, background .2s, transform .12s;
+  z-index: 3;
+}
+
+.flecha:hover  { opacity: 1; background: rgb(255 255 255 / .22); }
+.flecha:active { transform: scale(.94); }
+.flecha:disabled { opacity: .14; cursor: default; }
+
+.flecha--anterior  { left:  clamp(16px, 3vw, 44px); }
+.flecha--siguiente { right: clamp(16px, 3vw, 44px); }
+
+.flecha svg { width: 42%; height: 42%; }
+
+/* --- Botón volver -------------------------------------------------------- */
+
+.volver {
+  position: absolute;
+  top: calc(var(--u) * 2.5);
+  right: calc(var(--u) * 2.5);
+  z-index: 4;
+  background: rgb(255 255 255 / .10);
+  border: 1px solid rgb(255 255 255 / .22);
+  border-radius: 999px;
+  color: rgb(255 255 255 / .8);
+  padding: 6px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .25s;
+}
+body:not(.quieto) .volver { opacity: .8; }
+.volver:hover { opacity: 1; }
+
+/* --- Pantalla en negro (tecla B) ---------------------------------------- */
+
+body.negro .capa,
+body.negro .marco,
+body.negro .rotulo,
+body.negro .flecha,
+body.negro .progreso-pista { opacity: 0 !important; }
+body.negro { background: #000; }
+
+/* --- Aviso de error ------------------------------------------------------ */
+
+.aviso {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: var(--u);
+  text-align: center;
+  padding: calc(var(--u) * 4);
+  z-index: 10;
+  background: var(--noche);
+}
+.aviso p { color: #e0a3a3; max-width: 42ch; line-height: 1.6; margin: 0; }
+.aviso a { color: var(--oro); text-decoration: underline; font-size: 14px; }
